@@ -1,9 +1,14 @@
-from quiz import db
+from quiz import db,loginManager
+from flask_login import UserMixin
 
 db.create_all()
 
+@loginManager.user_loader
+def loadUser(userID):
+    return UserInfo.query.get(int(userID))
 
-class UserInfo(db.Model):
+
+class UserInfo(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)

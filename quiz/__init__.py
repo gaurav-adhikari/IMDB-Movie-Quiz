@@ -12,6 +12,8 @@ app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///QuizSchema.db"
 db = SQLAlchemy(app)
 
 bcrypt=Bcrypt(app)
+loginManager= LoginManager(app)
+
 
 from quiz import routes
 

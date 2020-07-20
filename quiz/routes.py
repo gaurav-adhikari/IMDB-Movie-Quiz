@@ -2,24 +2,29 @@ from flask import render_template, flash, redirect, url_for
 from quiz import app,db,bcrypt
 from quiz.forms import LoginForm, RegistrationForm
 from quiz.Models import UserInfo
+from flask_login import login_user,current_user,logout_user
 db.create_all()
-
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
 
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
+
     form = LoginForm()
     # Statc admin login
     if form.validate_on_submit():
-        if form.username.data == "admin" and form.password.data == "admin":
-            flash(" You have been Logged in ", "success")
+
+        user=UserInfo.query.filter_by(username=form.username.data).first()
+       
+        if user and bcrypt.check_password_hash(user.password,form.password.data):
+            login_user(user)
             return redirect(url_for("dashboard"))
         else:
             flash(" Sorry you play quiz with these credentials", "danger")
 
     return render_template('home.html', form=form)
-
     
 
 @app.route("/register", methods=["GET", "POST"])
@@ -45,3 +50,9 @@ def register():
 @app.route("/dashboard",methods=["GET","POST"])
 def dashboard():
     return render_template("dashboard.html")
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("home"))
