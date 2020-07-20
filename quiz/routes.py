@@ -1,6 +1,8 @@
 from flask import render_template, flash, redirect, url_for
-from quiz import app
+from quiz import app,db,bcrypt
 from quiz.forms import LoginForm, RegistrationForm
+from quiz.Models import UserInfo
+db.create_all()
 
 
 
@@ -18,7 +20,7 @@ def home():
 
     return render_template('home.html', form=form)
 
-
+    
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -26,13 +28,18 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
+        
+        hashPassword=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        userRegistrationDetails = UserInfo(username=form.username.data,password=hashPassword,email=form.email.data)
+        db.session.add(userRegistrationDetails)
+        db.session.commit()
+
         flash("Registration succesful", "success")
         return redirect(url_for("home"))
     else:
         flash("Registration Failed", "danger")
 
     return render_template("registration.html", form=form)
-
 
 
 @app.route("/dashboard",methods=["GET","POST"])
