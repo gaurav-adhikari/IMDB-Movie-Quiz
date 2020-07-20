@@ -10,10 +10,22 @@ def home():
     # Statc admin login
     if form.validate_on_submit():
         if form.username.data == "admin" and form.password.data == "admin":
-            flash(" You have been Logged in ","success")
+            flash(" You have been Logged in ", "success")
             return redirect(url_for("home"))
         else:
-            flash(" Sorry you play quiz with these credentials","danger")
+            flash(" Sorry you play quiz with these credentials", "danger")
 
     return render_template('home.html', form=form)
 
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+
+    form = RegistrationForm()
+
+    if form.validate_on_submit():
+        flash("Registration succesful", "success")
+    else:
+        flash("Registration Failed", "danger")
+
+    return render_template("registration.html", form=form)
