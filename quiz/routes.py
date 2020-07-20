@@ -1,8 +1,8 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for,request
 from quiz import app,db,bcrypt
 from quiz.forms import LoginForm, RegistrationForm
 from quiz.Models import UserInfo
-from flask_login import login_user,current_user,logout_user
+from flask_login import login_user,current_user,logout_user,login_required
 db.create_all()
 
 
@@ -20,7 +20,12 @@ def home():
        
         if user and bcrypt.check_password_hash(user.password,form.password.data):
             login_user(user)
-            return redirect(url_for("dashboard"))
+            loginPage = request.args.get("next")
+            
+            if loginPage:
+                return redirect(loginPage)
+            else:
+                return redirect(url_for("dashboard"))
         else:
             flash(" Sorry you play quiz with these credentials", "danger")
 
@@ -48,7 +53,12 @@ def register():
 
 
 @app.route("/dashboard",methods=["GET","POST"])
+@login_required
 def dashboard():
+
+    # if not current_user.is_authenticated:
+    #     return redirect(url_for("home"))
+
     return render_template("dashboard.html")
 
 

@@ -13,7 +13,8 @@ db = SQLAlchemy(app)
 
 bcrypt=Bcrypt(app)
 loginManager= LoginManager(app)
-
+loginManager.login_view="home"
+loginManager.login_message_category="info"
 
 from quiz import routes
 
