@@ -58,10 +58,11 @@ def register():
 @app.route("/dashboard", methods=["GET", "POST"])
 @login_required
 def dashboard():
-    
+
     print(current_user)
-    allUserDatas= UserInfo.query.order_by(desc(UserInfo.recentScore)).all()    
-    return render_template("dashboard.html",userDatas=allUserDatas,currentUser=current_user.username)
+    page=request.args.get("page",1,type=int)
+    allUserDatas = UserInfo.query.order_by(desc(UserInfo.recentScore)).paginate(page=page,per_page=3)
+    return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username)
 
 
 @app.route("/logout")

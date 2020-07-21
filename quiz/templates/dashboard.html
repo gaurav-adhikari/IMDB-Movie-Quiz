@@ -2,7 +2,6 @@
 
 {% block content %}
 
-
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}">
 </head>
@@ -47,7 +46,7 @@
         </thead>
 
         <tbody>
-            {%for userdata in userDatas %}
+            {%for userdata in userDatas.items %}
             <tr>
                 <td>{{userdata.username}}</td>
                 <td>{{userdata.email}}</td>
@@ -59,4 +58,18 @@
     </table>
 </div>
 
+<center>
+{% for pageNumber in userDatas.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+
+{% if pageNumber %}
+{% if userDatas.page==pageNumber %}
+<a class="btn btn-primary mb-4" href="{{url_for('dashboard',page=pageNumber)}}">{{ pageNumber }}</a>
+{% else %}
+<a class="btn btn-outline-info mb-4" href="{{url_for('dashboard',page=pageNumber)}}">{{ pageNumber }}</a>
+{% endif %}
+{%else%}
+...
+{% endif %}
+{% endfor %}
+</center>
 {% endblock content %}
