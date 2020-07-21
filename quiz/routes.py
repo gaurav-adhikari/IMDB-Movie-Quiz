@@ -7,6 +7,7 @@ from sqlalchemy import desc
 db.create_all()
 
 
+
 @app.route("/", methods=["GET", "POST"])
 def home():
 
@@ -59,10 +60,20 @@ def register():
 @login_required
 def dashboard():
 
-    maxScore=db.session.query(db.func.max(UserInfo.recentScore)).scalar()
-    page=request.args.get("page",1,type=int)
-    allUserDatas = UserInfo.query.order_by(desc(UserInfo.recentScore)).paginate(page=page,per_page=3)
-    return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username,maxScore=maxScore)
+    maxScore = db.session.query(db.func.max(UserInfo.recentScore)).scalar()
+    page = request.args.get("page", 1, type=int)
+    allUserDatas = UserInfo.query.order_by(
+        desc(UserInfo.recentScore)).paginate(page=page, per_page=3)
+    return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username, maxScore=maxScore)
+
+
+@app.route("/takeQuiz",methods=["GET","POST"])
+@login_required
+def takeQuiz():
+
+    currentUser= current_user
+
+    return render_template("quizExam.html",recentScore=currentUser.recentScore,username=currentUser.username)
 
 
 @app.route("/logout")

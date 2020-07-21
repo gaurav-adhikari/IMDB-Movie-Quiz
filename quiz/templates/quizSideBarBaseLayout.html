@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}">
+
     {% if title %}
     <title>IMDB Quiz - {{ title }}</title>
     {% else %}
@@ -36,18 +38,12 @@
 
             <div class="md-4">
                 <div class="content-section">
-                    <h4>Current Best Score</h4>
-                    <p class='text-muted'>Test your craze for movies with us
-                    <ul class="list-group">
-                        {% if maxScore%}
-                        <li class="list-group-item list-group-item-light">Current Best : {{maxScore}}</li>
-                        {% else %}
-                        <li class="list-group-item list-group-item-light">Current Best : Unknown</li>
-                        {% endif %}
-                    </ul>
-                    </p>
+                    <h5>{{username}}'s Quiz Status</h4>
 
-                    <center><a class="btn btn-primary" href="{{url_for('takeQuiz')}}">Take Quiz</a></center>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-light">My Best : {{recentScore}}</li>
+                    </ul>
+                    <center><a class="btn btn-danger mt-2" href="{{url_for('dashboard')}}">QUIT</a></center>
                 </div>
             </div>
         </div>
