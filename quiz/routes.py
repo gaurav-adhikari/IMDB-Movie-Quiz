@@ -27,7 +27,7 @@ def home():
             else:
                 return redirect(url_for("dashboard"))
         else:
-            flash(" Sorry you play quiz with these credentials", "danger")
+            flash(" Sorry you cannot play quiz with these credentials", "danger")
 
     return render_template('home.html', form=form)
     

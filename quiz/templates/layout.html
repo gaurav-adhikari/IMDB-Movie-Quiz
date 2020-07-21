@@ -11,29 +11,45 @@
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     {% if title %}
-    <title>IMDB Quiz -  {{ title }}</title>
+    <title>IMDB Quiz - {{ title }}</title>
     {% else %}
     <title> IMDB Quiz - How movie buff are you?</title>
     {% endif %}
 
-    <main role="main" class="container">
+    <main role="main" class="container mt-5 pt-5">
         <div class="row">
             <div class="col-md-8">
 
                 {% with messages = get_flashed_messages(with_categories=true) %}
 
-                    {% if messages%}
-                        {% for category,message in messages %}
-                        <div class="alert alert-{{ category}}">
-                            {{ message }}
-                        </div>
-                        {% endfor %}
-                    {% endif%}
+                {% if messages%}
+                {% for category,message in messages %}
+                <div class="alert alert-{{ category}}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif%}
                 {% endwith %}
 
                 {% block content %}{% endblock %}
             </div>
-            
+
+            <div class="md-4">
+                <div class="content-section">
+                    <h4>Current Best Score</h4>
+                    <p class='text-muted'>Test your craze for movies with us
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-light">Current Best : 10</li>
+                    </ul>
+                    </p>
+                    <center><button type="button" class="btn btn-primary">Take Quiz</button></center>
+                </div>
+            </div>
+
+
+
+
+
         </div>
     </main>
 
@@ -47,5 +63,5 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
 
-</body>
+    </body>
 </head>
