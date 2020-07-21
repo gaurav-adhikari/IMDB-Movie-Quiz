@@ -59,10 +59,10 @@ def register():
 @login_required
 def dashboard():
 
-    print(current_user)
+    maxScore=db.session.query(db.func.max(UserInfo.recentScore)).scalar()
     page=request.args.get("page",1,type=int)
     allUserDatas = UserInfo.query.order_by(desc(UserInfo.recentScore)).paginate(page=page,per_page=3)
-    return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username)
+    return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username,maxScore=maxScore)
 
 
 @app.route("/logout")
