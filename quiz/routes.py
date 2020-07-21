@@ -3,6 +3,7 @@ from quiz import app, db, bcrypt
 from quiz.forms import LoginForm, RegistrationForm
 from quiz.Models import UserInfo
 from flask_login import login_user, current_user, logout_user, login_required
+from sqlalchemy import desc
 db.create_all()
 
 
@@ -58,8 +59,8 @@ def register():
 @login_required
 def dashboard():
 
-    allUserDatas= UserInfo.query.all()
-
+    allUserDatas= UserInfo.query.order_by(desc(UserInfo.recentScore)).all()
+    
     return render_template("dashboard.html",userDatas=allUserDatas)
 
 
