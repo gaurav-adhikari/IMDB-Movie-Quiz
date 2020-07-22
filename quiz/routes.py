@@ -1,11 +1,10 @@
 from flask import render_template, flash, redirect, url_for, request
 from quiz import app, db, bcrypt
-from quiz.forms import LoginForm, RegistrationForm
-from quiz.Models import UserInfo,Questions
+from quiz.forms import LoginForm, RegistrationForm,ChoiceForm
+from quiz.Models import UserInfo, Questions
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import desc
 db.create_all()
-
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -67,13 +66,14 @@ def dashboard():
     return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username, maxScore=maxScore)
 
 
-@app.route("/takeQuiz",methods=["GET","POST"])
+@app.route("/takeQuiz", methods=["GET", "POST"])
 @login_required
 def takeQuiz():
 
-    currentUser= current_user
-    questions=Questions.query.all()
-    return render_template("quizExam.html",recentScore=currentUser.recentScore,username=currentUser.username,questions=questions)
+    currentUser = current_user
+    questionSets=Questions.query.order_by(db.func.random()).all()
+    return render_template("quizExam.html", recentScore=currentUser.recentScore, username=currentUser.username, questions=questionSets)
+
 
 @app.route("/logout")
 def logout():

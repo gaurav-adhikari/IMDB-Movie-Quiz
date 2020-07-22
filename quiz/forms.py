@@ -1,7 +1,7 @@
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField ,RadioField
-from wtforms.validators import DataRequired, Length, Email, EqualTo,ValidationError
+from wtforms import StringField, PasswordField, SubmitField, RadioField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from quiz.Models import UserInfo
 
 
@@ -24,12 +24,17 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField("Register")
 
 
-    def validate_username(self,username):
-        user=UserInfo.query.filter_by(username=username.data).first()
-        if user:
-            raise ValidationError("Sorry the Username is already Taken")
-    
-    def validate_email(self,email):
-        email=UserInfo.query.filter_by(email=email.data).first()
-        if email:
+class ChoiceForm(FlaskForm):
+    choiceField=RadioField(label="",choices=[],validators=[DataRequired()])
+
+
+def validate_username(self, username):
+    user = UserInfo.query.filter_by(username=username.data).first()
+    if user:
+        raise ValidationError("Sorry the Username is already Taken")
+
+
+def validate_email(self, email):
+    email = UserInfo.query.filter_by(email=email.data).first()
+    if email:
             raise ValidationError("Sorry the email is already Taken")

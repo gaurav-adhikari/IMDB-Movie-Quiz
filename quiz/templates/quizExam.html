@@ -7,24 +7,27 @@
     <p>Please select your answer and continue:</p>
 
     <form method="POST" action="">
-        
+
         <ol>
             {% for question in questions %}
-            <li>{{questions.question}}</li>
-            <input type='radio' value='{{question.choice1}}}}' name='{{i}}' />{{question.choice1}}
-            <input type='radio' value='{{question.choice2}}}}' name='{{i}}' />{{question.choice2}}
-            <input type='radio' value='{{question.choice3}}}}' name='{{i}}' />{{question.choice3}}
-            <input type='radio' value='{{question.choice4}}}}' name='{{i}}' />{{question.choice4}}
-            {% endfor %}
+            <p>{{loop.index}}. {{question.question}}</p>
+            <div class="form-check pb-3">
+                <input type="radio" class="form-check-input" name={{question.qid}} value="1"><label
+                    class="form-check-label">{{question.choice1}}</label><br>
+                <input type="radio" class="form-check-input" name={{question.qid}} value="2"><label
+                    class="form-check-label">{{question.choice2}}</label><br>
+                <input type="radio" class="form-check-input" name={{question.qid}} value="3"><label
+                    class="form-check-label">{{question.choice3}}</label><br>
+                <input type="radio" class="form-check-input" name={{question.qid}} value="4"><label
+                    class="form-check-label">{{question.choice4}}</label><br>
+            </div>
+            {% endfor%}
         </ol>
-
-        <input type="submit" value="submit" />
-        <center><a class="btn btn-danger mt-2" href="{{url_for('dashboard')}}">QUIT</a></center>
-
+        <div class="row justify-content-center mb-5">
+            <button type="submit" class="btn btn-primary"> Submit </button>
+        </div>
 
     </form>
-
-
 </div>
 
 {% endblock content %}
