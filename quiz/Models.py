@@ -36,4 +36,4 @@ class Questions(db.Model):
 
 
     def __repr__(self):
-        return f"'questions('{self.question}','{self.choice1}','{self.choice2}','{self.choice3}','{self.choice4}','{self.choice5},'{self.correctAnswer}')'"
+        return f"'questions('{self.qid}',''{self.question}','{self.choice1}','{self.choice2}','{self.choice3}','{self.choice4}','{self.correctAnswer}')'"

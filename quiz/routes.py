@@ -55,6 +55,7 @@ def register():
     return render_template("registration.html", form=form)
 
 
+
 @app.route("/dashboard", methods=["GET", "POST"])
 @login_required
 def dashboard():
@@ -71,9 +72,27 @@ def dashboard():
 def takeQuiz():
 
     currentUser = current_user
-    questionSets=Questions.query.order_by(db.func.random()).all()
-    return render_template("quizExam.html", recentScore=currentUser.recentScore, username=currentUser.username, questions=questionSets)
+    questionSets=Questions.query.order_by(db.func.random())
+    
+    if request.method=="POST":
+        
+        tempScore=0
 
+        for selectedAnswerid in request.form:
+            if request.form[selectedAnswerid]==str(Questions.query.filter_by(qid=selectedAnswerid).first().correctAnswer):
+                tempScore+=1    
+
+        if tempScore > current_user.recentScore:
+            current_user.recentScore=tempScore
+            db.session.commit()
+            flash("Congrats!! You scored {} And it is your best score so far".format(tempScore), "info")
+        
+        else:
+            flash("Sorry!! You couldn't beat your previous Score of {}. You scored {}".format(current_user.recentScore,tempScore),"info")
+
+        return redirect(url_for("dashboard"))
+
+    return render_template("quizExam.html", recentScore=currentUser.recentScore, username=currentUser.username, questions=questionSets)
 
 @app.route("/logout")
 def logout():

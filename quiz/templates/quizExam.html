@@ -6,7 +6,7 @@
 
     <p>Please select your answer and continue:</p>
 
-    <form method="POST" action="">
+    <form method="POST" action="{{url_for('takeQuiz')}}">
 
         <ol>
             {% for question in questions %}
