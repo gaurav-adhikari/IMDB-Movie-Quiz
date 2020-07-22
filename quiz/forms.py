@@ -1,6 +1,6 @@
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField ,RadioField
 from wtforms.validators import DataRequired, Length, Email, EqualTo,ValidationError
 from quiz.Models import UserInfo
 
@@ -22,6 +22,7 @@ class RegistrationForm(FlaskForm):
     confirmPassword = PasswordField(
         'Retype password', validators=[DataRequired(), EqualTo("password")])
     submit = SubmitField("Register")
+
 
     def validate_username(self,username):
         user=UserInfo.query.filter_by(username=username.data).first()

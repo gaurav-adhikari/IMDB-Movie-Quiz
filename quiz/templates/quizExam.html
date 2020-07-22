@@ -2,7 +2,29 @@
 
 {% block content %}
 
+<div class="container">
+
+    <p>Please select your answer and continue:</p>
+
+    <form method="POST" action="">
+        
+        <ol>
+            {% for question in questions %}
+            <li>{{questions.question}}</li>
+            <input type='radio' value='{{question.choice1}}}}' name='{{i}}' />{{question.choice1}}
+            <input type='radio' value='{{question.choice2}}}}' name='{{i}}' />{{question.choice2}}
+            <input type='radio' value='{{question.choice3}}}}' name='{{i}}' />{{question.choice3}}
+            <input type='radio' value='{{question.choice4}}}}' name='{{i}}' />{{question.choice4}}
+            {% endfor %}
+        </ol>
+
+        <input type="submit" value="submit" />
+        <center><a class="btn btn-danger mt-2" href="{{url_for('dashboard')}}">QUIT</a></center>
 
 
+    </form>
+
+
+</div>
 
 {% endblock content %}
