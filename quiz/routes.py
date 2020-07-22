@@ -67,6 +67,7 @@ def dashboard():
     return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username, maxScore=maxScore)
 
 
+
 @app.route("/takeQuiz", methods=["GET", "POST"])
 @login_required
 def takeQuiz():
@@ -93,6 +94,7 @@ def takeQuiz():
         return redirect(url_for("dashboard"))
 
     return render_template("quizExam.html", recentScore=currentUser.recentScore, username=currentUser.username, questions=questionSets)
+
 
 @app.route("/logout")
 def logout():

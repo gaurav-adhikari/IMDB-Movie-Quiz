@@ -21,7 +21,6 @@ class UserInfo(db.Model, UserMixin):
         return f"'UserInfo('{self.username}','{self.email}','{self.password}','{self.recentScore}')'"
 
 
-# TODO schema for Questions
 
 class Questions(db.Model):
 
@@ -33,7 +32,6 @@ class Questions(db.Model):
     choice4 = db.Column(db.String(100), nullable=True, default=None)
     choice5 = db.Column(db.String(100), nullable=True, default=None)
     correctAnswer = db.Column(db.Integer, nullable=False,)
-
 
     def __repr__(self):
         return f"'questions('{self.qid}',''{self.question}','{self.choice1}','{self.choice2}','{self.choice3}','{self.choice4}','{self.correctAnswer}')'"
