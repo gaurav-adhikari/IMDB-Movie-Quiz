@@ -6,7 +6,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import desc
 
 from quiz.utils.DBUtils import adminEntryCheckHelper
-from quiz.utils.Utils import generatePasswordHash,checkPasswordHash,generateReferral
+from quiz.utils.Utils import generatePasswordHash, checkPasswordHash, generateReferral
 
 db.create_all()
 
@@ -50,10 +50,10 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        
+
         hashPassword = generatePasswordHash(form.password.data)
         userRegistrationDetails = UserInfo(
-            username=form.username.data, password=hashPassword, email=form.email.data,referralCode=generateReferral())
+            username=form.username.data, password=hashPassword, email=form.email.data, referralCode=generateReferral())
 
         db.session.add(userRegistrationDetails)
         db.session.commit()
@@ -70,10 +70,12 @@ def dashboard():
 
     maxScore = db.session.query(db.func.max(UserInfo.recentScore)).scalar()
     page = request.args.get("page", 1, type=int)
-    allUserDatas = UserInfo.query.order_by(
+    allUserDatas = UserInfo.query.filter(UserInfo.username!="admin").order_by(
         desc(UserInfo.recentScore)).paginate(page=page, per_page=3)
-    
-    return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username, maxScore=maxScore,referralCode=current_user.referralCode)
+
+    return render_template("dashboard.html",
+                           userDatas=allUserDatas, currentUser=current_user.username,
+                           maxScore=maxScore, referralCode=current_user.referralCode)
 
 
 @app.route("/takeQuiz", methods=["GET", "POST"])
@@ -81,23 +83,25 @@ def dashboard():
 def takeQuiz():
 
     currentUser = current_user
-    questionSets=Questions.query.order_by(db.func.random())
-    
-    if request.method=="POST":
-        
-        tempScore=0
+    questionSets = Questions.query.order_by(db.func.random())
+
+    if request.method == "POST":
+
+        tempScore = 0
 
         for selectedAnswerid in request.form:
-            if request.form[selectedAnswerid]==str(Questions.query.filter_by(qid=selectedAnswerid).first().correctAnswer):
-                tempScore+=1    
+            if request.form[selectedAnswerid] == str(Questions.query.filter_by(qid=selectedAnswerid).first().correctAnswer):
+                tempScore += 1
 
         if tempScore > current_user.recentScore:
-            current_user.recentScore=tempScore
+            current_user.recentScore = tempScore
             db.session.commit()
-            flash("Congrats!! You scored {} And it is your best score so far".format(tempScore), "info")
-        
+            flash("Congrats!! You scored {} And it is your best score so far".format(
+                tempScore), "info")
+
         else:
-            flash("Sorry!! You couldn't beat your previous Score of {}. You scored {}".format(current_user.recentScore,tempScore),"info")
+            flash("Sorry!! You couldn't beat your previous Score of {}. You scored {}".format(
+                current_user.recentScore, tempScore), "info")
 
         return redirect(url_for("dashboard"))
 
