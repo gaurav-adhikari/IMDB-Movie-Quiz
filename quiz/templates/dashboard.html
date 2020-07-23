@@ -20,11 +20,14 @@
 
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link disabled p-2 mr-3" href="#">Welcome {{currentUser }}</a>
                     <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
+
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link disabled p-2 mr-3" href="#">Welcome {{currentUser }}</a>
+                    <a class="nav-item nav-link" data-toggle="modal" data-target="#myModal">Refer a Friend</a>
+
                     <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
                 </div>
             </div>
@@ -72,4 +75,26 @@
 {% endif %}
 {% endfor %}
 </center>
+
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <h5 class="modal-title">Liked IMDB Quiz? Your shareable referral code</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <div class="modal-body">
+          Your code : {{referralCode}}
+        </div>
+    <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
 {% endblock content %}

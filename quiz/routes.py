@@ -73,7 +73,7 @@ def dashboard():
     allUserDatas = UserInfo.query.order_by(
         desc(UserInfo.recentScore)).paginate(page=page, per_page=3)
     
-    return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username, maxScore=maxScore)
+    return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username, maxScore=maxScore,referralCode=current_user.referralCode)
 
 
 @app.route("/takeQuiz", methods=["GET", "POST"])
