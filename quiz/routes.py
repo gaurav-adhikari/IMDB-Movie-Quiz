@@ -1,25 +1,31 @@
 from flask import render_template, flash, redirect, url_for, request
 from quiz import app, db, bcrypt
-from quiz.forms import LoginForm, RegistrationForm,ChoiceForm
+from quiz.forms import LoginForm, RegistrationForm
 from quiz.Models import UserInfo, Questions
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import desc
+
+from quiz.utils.DBUtils import adminEntryCheckHelper
+from quiz.utils.Utils import generatePasswordHash,checkPasswordHash,generateReferral
+
 db.create_all()
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
 
+    adminEntryCheckHelper()
+
     if current_user.is_authenticated:
         return redirect(url_for("dashboard"))
 
     form = LoginForm()
-    # Statc admin login
+
     if form.validate_on_submit():
 
         user = UserInfo.query.filter_by(username=form.username.data).first()
 
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and checkPasswordHash(user.password, form.password.data):
             login_user(user)
             loginPage = request.args.get("next")
 
@@ -28,7 +34,7 @@ def home():
             else:
                 return redirect(url_for("dashboard"))
         else:
-            flash(" Sorry you cannot play quiz with these credentials", "danger")
+            flash(" Sorry, you cannot play quiz with these credentials", "danger")
 
     return render_template('home.html', form=form)
 
@@ -36,16 +42,19 @@ def home():
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
+    adminEntryCheckHelper()
+
     if current_user.is_authenticated:
         return redirect(url_for("dashboard"))
 
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        hashPassword = bcrypt.generate_password_hash(
-            form.password.data).decode('utf-8')
+        
+        hashPassword = generatePasswordHash(form.password.data)
         userRegistrationDetails = UserInfo(
-            username=form.username.data, password=hashPassword, email=form.email.data)
+            username=form.username.data, password=hashPassword, email=form.email.data,referralCode=generateReferral())
+
         db.session.add(userRegistrationDetails)
         db.session.commit()
 
@@ -53,7 +62,6 @@ def register():
         return redirect(url_for("home"))
 
     return render_template("registration.html", form=form)
-
 
 
 @app.route("/dashboard", methods=["GET", "POST"])
@@ -64,8 +72,8 @@ def dashboard():
     page = request.args.get("page", 1, type=int)
     allUserDatas = UserInfo.query.order_by(
         desc(UserInfo.recentScore)).paginate(page=page, per_page=3)
+    
     return render_template("dashboard.html", userDatas=allUserDatas, currentUser=current_user.username, maxScore=maxScore)
-
 
 
 @app.route("/takeQuiz", methods=["GET", "POST"])

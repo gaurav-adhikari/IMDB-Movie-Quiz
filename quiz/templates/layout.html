@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}">
+
+
     {% if title %}
     <title>IMDB Quiz - {{ title }}</title>
     {% else %}
@@ -42,7 +45,7 @@
                         {% if maxScore%}
                         <li class="list-group-item list-group-item-light">Current Best : {{maxScore}}</li>
                         {% else %}
-                        <li class="list-group-item list-group-item-light">Current Best : Unknown</li>
+                        <li class="list-group-item list-group-item-light">Current Best : None</li>
                         {% endif %}
                     </ul>
                     </p>

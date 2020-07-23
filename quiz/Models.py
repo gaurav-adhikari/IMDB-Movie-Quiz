@@ -15,11 +15,10 @@ class UserInfo(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
     recentScore = db.Column(db.Integer, default=0)
-    # referralCode = db.Column(db.String(256),nullable=True)
+    referralCode = db.Column(db.String(5), unique=True, nullable=False)
 
     def __repr__(self):
-        return f"'UserInfo('{self.username}','{self.email}','{self.password}','{self.recentScore}')'"
-
+        return f"'UserInfo('{self.username}','{self.email}','{self.password}','{self.recentScore}','{self.referralCode}')'"
 
 
 class Questions(db.Model):
