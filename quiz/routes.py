@@ -5,7 +5,7 @@ from quiz.Models import UserInfo, Questions
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import desc
 
-from quiz.utils.DBUtils import adminEntryCheckHelper
+from quiz.utils.DBUtils import adminEntryCheckHelper,getIMDBQuestions
 from quiz.utils.Utils import generatePasswordHash, checkPasswordHash, generateReferral
 
 db.create_all()
@@ -14,6 +14,7 @@ db.create_all()
 @app.route("/", methods=["GET", "POST"])
 def home():
 
+    getIMDBQuestions()
     adminEntryCheckHelper()
 
     if current_user.is_authenticated:

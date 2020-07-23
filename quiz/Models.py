@@ -34,3 +34,15 @@ class Questions(db.Model):
 
     def __repr__(self):
         return f"'questions('{self.qid}',''{self.question}','{self.choice1}','{self.choice2}','{self.choice3}','{self.choice4}','{self.correctAnswer}')'"
+
+
+class MoviesDB(db.Model):
+     movieID = db.Column(db.Integer, primary_key=True)
+     movieTitle= db.Column(db.String(100), nullable=False)
+     year= db.Column(db.String(4), nullable=False)
+     place= db.Column(db.String(100), nullable=True)
+     starCast= db.Column(db.String(100), nullable=True)
+     ratings= db.Column(db.String(100), nullable=True)
+
+    def __repr__(self):
+        return f"'MoviesDB('{self.movieID}',''{self.movieTitle}','{self.year}','{self.year}','{self.place}','{self.starCast}','{self.ratings}')'"
