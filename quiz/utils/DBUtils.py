@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from quiz import db
-from quiz.Models import UserInfo
+from quiz.Models import UserInfo, MoviesDB
 
 from quiz.utils.Utils import generatePasswordHash
 
@@ -23,8 +23,8 @@ def adminEntryCheckHelper():
             db.rollback()
 
 
-def getIMDBQuestions():
-        
+def loadIMDBData():
+
     url = 'http://www.imdb.com/chart/top'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'lxml')
@@ -32,8 +32,10 @@ def getIMDBQuestions():
     movies = soup.select('td.titleColumn')
     links = [a.attrs.get('href') for a in soup.select('td.titleColumn a')]
     crew = [a.attrs.get('title') for a in soup.select('td.titleColumn a')]
-    ratings = [b.attrs.get('data-value') for b in soup.select('td.posterColumn span[name=ir]')]
-    votes = [b.attrs.get('data-value') for b in soup.select('td.ratingColumn strong')]
+    ratings = [b.attrs.get('data-value')
+               for b in soup.select('td.posterColumn span[name=ir]')]
+    votes = [b.attrs.get('data-value')
+             for b in soup.select('td.ratingColumn strong')]
 
     imdb = []
 
@@ -52,6 +54,15 @@ def getIMDBQuestions():
                 "vote": votes[index],
                 "link": links[index]}
         imdb.append(data)
+    print(imdb)
+    return imdb
 
-    for item in imdb:
-        print(item['place'], '-', item['movie_title'], '('+item['year']+') -', 'Starring:', item['star_cast'])
+
+def insertIMDBData(imdb):
+
+    for movieItem in imdb:
+        movieObj = MoviesDB(movieTitle=movieItem["movie_title"], year=movieItem['year'],
+                            place=movieItem["place"], starCast=movieItem["star_cast"], ratings=movieItem["rating"])
+        db.session.add(movieObj)
+
+    db.session.commit()
