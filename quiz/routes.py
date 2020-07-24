@@ -1,11 +1,11 @@
 from flask import render_template, flash, redirect, url_for, request
 from quiz import app, db, bcrypt
 from quiz.forms import LoginForm, RegistrationForm
-from quiz.Models import UserInfo, Questions
+from quiz.Models import UserInfo, Questions, MoviesDB
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import desc
 
-from quiz.utils.DBUtils import adminEntryCheckHelper
+from quiz.utils.DBUtils import adminEntryCheckHelper, loadIMDBData, insertIMDBData, generateIMDBQuizData
 from quiz.utils.Utils import generatePasswordHash, checkPasswordHash, generateReferral
 
 db.create_all()
@@ -13,6 +13,12 @@ db.create_all()
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+
+    # caching the IMDB response
+    if MoviesDB.query.first() == None:
+        imdbRawDictionary = loadIMDBData()
+        insertIMDBData(imdbRawDictionary)
+        print("imdb load")
 
     adminEntryCheckHelper()
 
@@ -70,7 +76,7 @@ def dashboard():
 
     maxScore = db.session.query(db.func.max(UserInfo.recentScore)).scalar()
     page = request.args.get("page", 1, type=int)
-    allUserDatas = UserInfo.query.filter(UserInfo.username!="admin").order_by(
+    allUserDatas = UserInfo.query.filter(UserInfo.username != "admin").order_by(
         desc(UserInfo.recentScore)).paginate(page=page, per_page=3)
 
     return render_template("dashboard.html",
@@ -82,8 +88,9 @@ def dashboard():
 @login_required
 def takeQuiz():
 
+    generateIMDBQuizData()
     currentUser = current_user
-    questionSets = Questions.query.order_by(db.func.random())
+    questionSets = Questions.query.order_by(db.func.random()).limit(10)
 
     if request.method == "POST":
 

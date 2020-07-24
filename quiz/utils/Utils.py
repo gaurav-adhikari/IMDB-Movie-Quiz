@@ -57,4 +57,7 @@ def generateDummyTestQuestions():
                       i+"C"+"2", choice3="q"+i+"C"+"3", choice4="q"+i+"C"+"4", correctAnswer=i)
         try:    
             db.session.add(q)
-            db.session.commit()s
+            db.session.commit()
+            
+        except Exception as e:
+            print(e)
