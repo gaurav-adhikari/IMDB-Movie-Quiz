@@ -6,11 +6,30 @@
 **utils folder** contains all the basic utility functions
 **routes.py file** contains all the route to HTML pages and python scripts
 
+
 ## Dependencies
+```
+conda install -c anaconda flask
+conda install -c anaconda wtforms
+conda install -c anaconda bcrypt
+conda install -c anaconda flask-login
+conda install -c anaconda sqlalchemy
+conda install -c anaconda beautifulsoup4
+
+```
+
+## Uses
+ 
+Go to the cloned directory and just run run.py
+
+Example:
+
+```
+~/python run.py
+```
 
 
-
-# Screenshots
+# IMDB-Quiz V0.8 Screenshots
 
 #### Dashboard 
 ![Image of screenshot](https://github.com/gaurav-adhikari/IMDB-Movie-Quiz/blob/dev/snaps/dashboard.png)
@@ -24,12 +43,18 @@
 ![Image of screenshot](https://github.com/gaurav-adhikari/IMDB-Movie-Quiz/blob/dev/snaps/shareable.png)
 
 
+## Want to contribute? Start here
+
+Built this version in just 3 days all from scratch, the code might be abit messy. So, if you found any errors, the please issue it.
+
+Trello : https://trello.com/b/kruI183a/imdb-quiz
 
 
 
+## TODO
 
-
-
-
-
-Track my progress at : https://trello.com/b/kruI183a/imdb-quiz
+* ~~DashBoard Design Update~~
+* ~~Referral Feature~~
+* Result Update
+* User performance Graphs in Dashboard
+* Analyse the user performance report to create a model
