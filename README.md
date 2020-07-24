@@ -1,9 +1,9 @@
 # IMDB Movie Quiz
 
-**quiz folder** contains the all the necessary modules
-**static folder** contains all the CSS and images
-**template folder** contains all the HTML pages
-**utils folder** contains all the basic utility functions
+**quiz folder** contains the all the necessary modules<br/>
+**static folder** contains all the CSS and images<br/>
+**template folder** contains all the HTML pages<br/>
+**utils folder** contains all the basic utility functions<br/>
 **routes.py file** contains all the route to HTML pages and python scripts
 
 
