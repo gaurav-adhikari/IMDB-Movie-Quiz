@@ -5,7 +5,7 @@ from quiz.Models import UserInfo, Questions, MoviesDB
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import desc
 
-from quiz.utils.DBUtils import adminEntryCheckHelper, loadIMDBData, insertIMDBData
+from quiz.utils.DBUtils import adminEntryCheckHelper, loadIMDBData, insertIMDBData, generateIMDBQuizData
 from quiz.utils.Utils import generatePasswordHash, checkPasswordHash, generateReferral
 
 db.create_all()
@@ -14,7 +14,7 @@ db.create_all()
 @app.route("/", methods=["GET", "POST"])
 def home():
 
-    # caching the IMDB response 
+    # caching the IMDB response
     if MoviesDB.query.first() == None:
         imdbRawDictionary = loadIMDBData()
         insertIMDBData(imdbRawDictionary)
@@ -88,8 +88,9 @@ def dashboard():
 @login_required
 def takeQuiz():
 
+    generateIMDBQuizData()
     currentUser = current_user
-    questionSets = Questions.query.order_by(db.func.random())
+    questionSets = Questions.query.order_by(db.func.random()).limit(10)
 
     if request.method == "POST":
 
