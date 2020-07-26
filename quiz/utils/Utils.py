@@ -2,6 +2,7 @@ import random
 from quiz import bcrypt
 
 def generatePasswordHash(userPasswordPlain):
+    
     """
     Returns hashed password by converting the given plain text
     :param userPasswordPlain: hash password of the given user
@@ -14,6 +15,7 @@ def generatePasswordHash(userPasswordPlain):
 
 
 def checkPasswordHash(userHashedPassword, enteredPassword):
+
     """
     Returns true if the given plain text is equal to hashed text
 
@@ -30,6 +32,7 @@ def checkPasswordHash(userHashedPassword, enteredPassword):
 
 
 def generateReferral():
+    
     """
     Generates a random and unique referal code of 5 characters
 
@@ -47,6 +50,7 @@ def generateReferral():
 
 
 def generateDummyTestQuestions():
+   
     """
     Function to generate dummy quiz Questions
     """

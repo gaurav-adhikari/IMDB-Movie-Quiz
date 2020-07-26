@@ -12,7 +12,9 @@ from quiz.utils.Utils import generatePasswordHash
 
 
 def adminEntryCheckHelper():
-    "Checks if the user 'admin' is added to the DB , if not Adds admin to the DB"
+    """
+    Checks if the user 'admin' is added to the DB , if not Adds admin to the DB
+    """
 
     if UserInfo.query.filter_by(username="admin").first() == None:
         adminUser = UserInfo(username="admin", password=generatePasswordHash(
@@ -25,6 +27,9 @@ def adminEntryCheckHelper():
 
 
 def loadIMDBData():
+    """
+    Checks if the user 'admin' is added to the DB , if not Adds admin to the DB
+    """
 
     url = 'http://www.imdb.com/chart/top'
     response = requests.get(url)
@@ -60,6 +65,9 @@ def loadIMDBData():
 
 
 def insertIMDBData(imdb):
+    """
+    Inserts the data received from the IMDB site to local DB
+    """
 
     for movieItem in imdb:
         movieObj = MoviesDB(movieTitle=movieItem["movie_title"], year=movieItem['year'],
@@ -69,18 +77,23 @@ def insertIMDBData(imdb):
     db.session.commit()
 
 
-
 def generateIMDBQuizData():
+    """
+    Inserts the data received from the IMDB site to local DB
+    """
 
     Questions.query.delete()
 
+    # Types of questions to be asked in the quiz
     questionTypes = ["In which year did {} got Released ?",
                      "who is the actor in the movie {} ?"]
 
     for numberOfQuestions in range(1, 11):
 
+        # Change the value to
         qType = random.randint(0, 1)
 
+        # For question type 1 for dev
         if qType == 0:
 
             mid = MoviesDB.query.order_by(db.func.random()).first().movieID
@@ -102,6 +115,7 @@ def generateIMDBQuizData():
                                  choice3=allChoicesList[2], choice4=allChoicesList[3], correctAnswer=corrDate)
             db.session.add(question)
 
+        # For question type 2
         elif qType == 1:
 
             mid = MoviesDB.query.order_by(db.func.random()).first().movieID
@@ -124,4 +138,5 @@ def generateIMDBQuizData():
                                  choice3=allChoicesList[2], choice4=allChoicesList[3], correctAnswer=corrStarCast)
             db.session.add(question)
 
+    # Commit the final changes to the DB
     db.session.commit()
