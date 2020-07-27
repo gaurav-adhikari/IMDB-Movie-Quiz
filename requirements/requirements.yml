@@ -1,4 +1,4 @@
-name: imdbquiz
+name: gaure
 channels:
   - anaconda
   - conda-forge
@@ -42,7 +42,7 @@ dependencies:
   - pycryptodome=3.9.7=py38ha357303_1
   - pyopenssl=19.1.0=py_1
   - pysocks=1.7.1=py38_0
-  - python=3.8.3=hcff3b4d_2
+  - python=3.8.3=hcff3b4d_2 
   - python_abi=3.8=1_cp38
   - readline=8.0=h7b6447c_0
   - requests=2.24.0=py_0
