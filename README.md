@@ -30,6 +30,12 @@ Example:
 ~/python run.py
 ```
 
+## Admin Login credentials 
+TO Login using the "admin" account:  
+**username:** - admin   
+**password:** - admin  
+**Admin referral code:** - admin  
+
 
 # IMDB-Quiz V0.8 Screenshots
 
