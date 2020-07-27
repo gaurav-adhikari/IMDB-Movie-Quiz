@@ -16,6 +16,10 @@ Route to the requirements directory in the cloned project folder and enter the f
 conda env update --file requirement/requirements.yml
 ```
 
+After the dependencies are installed correctly enter the following code to activate the conda environment
+```
+conda activate imdbquiz
+```
 
 ## Uses
  
@@ -66,6 +70,6 @@ Trello : https://trello.com/b/kruI183a/imdb-quiz
 * ~~Referral Feature~~
 * Add Question types
 * Result Update
-* Result Update
 * User performance Graphs in Dashboard
-* Analyse the user performance report to create a model
+* Analyse the user performance report to create an ML model
+* formulate a Recommenders system to generate the relevant questions to the user
