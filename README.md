@@ -10,12 +10,14 @@
 ## Dependencies
 ```
 conda install -c anaconda flask
-conda install -c anaconda wtforms
-conda install -c anaconda bcrypt
+conda install -c anaconda flask-wtf
+conda install -c conda-forge flask-bcrypt
+conda install -c conda-forge email_validator
 conda install -c anaconda flask-login
-conda install -c anaconda sqlalchemy
+conda install -c conda-forge flask-sqlalchemy
+conda install -c anaconda requests
 conda install -c anaconda beautifulsoup4
-
+conda install -c anaconda lxml
 ```
 
 ## Uses
