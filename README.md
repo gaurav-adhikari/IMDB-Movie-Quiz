@@ -16,6 +16,10 @@ Route to the requirements directory in the cloned project folder and enter the f
 conda env update --file requirement/requirements.yml
 ```
 
+After the dependencies are installed correctly enter the following code to activate the conda environment
+```
+conda activate imdbquiz
+```
 
 ## Uses
  
