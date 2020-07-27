@@ -32,9 +32,13 @@ Example:
 
 ## Admin Login credentials 
 TO Login using the "admin" account:  
-**username:** - admin   
-**password:** - admin  
+**username:**  admin   
+**password:**  admin  
+
+while registering a new user for the first time use the following referral code:
+
 **Admin referral code:** - admin  
+
 
 
 # IMDB-Quiz V0.8 Screenshots
