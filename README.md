@@ -13,7 +13,7 @@
 Route to the requirements directory in the cloned project folder and enter the following command to install all necessary dependencies  
 
 ```
-conda env update --file requirements.yml
+conda env update --file requirement/requirements.yml
 ```
 
 
