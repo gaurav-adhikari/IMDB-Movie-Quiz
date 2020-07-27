@@ -97,6 +97,11 @@ def takeQuiz():
         tempScore = 0
 
         for selectedAnswerid in request.form:
+
+            # print([selectedAnswerid])
+            # print(request.form)
+            # print(request.form[selectedAnswerid])
+
             if request.form[selectedAnswerid] == str(Questions.query.filter_by(qid=selectedAnswerid).first().correctAnswer):
                 tempScore += 1
 
@@ -120,4 +125,3 @@ def logout():
 
     logout_user()
     return redirect(url_for("home"))
- 

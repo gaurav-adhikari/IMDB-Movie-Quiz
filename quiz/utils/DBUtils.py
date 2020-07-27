@@ -90,11 +90,14 @@ def generateIMDBQuizData():
 
     for numberOfQuestions in range(1, 11):
 
-        # Change the value to
-        qType = random.randint(0, 1)
+        # For dev
+        qType = 0
 
-        # For question type 1 for dev
-        if qType==0 or qType==1:
+        # For various question types
+        # qType = random.randint(0, 1)
+
+        # For question type 0
+        if qType == 0:
 
             mid = MoviesDB.query.order_by(db.func.random()).first().movieID
             movieTitle = MoviesDB.query.filter_by(
@@ -108,7 +111,6 @@ def generateIMDBQuizData():
             Choice2 = MoviesDB.query.filter_by(movieID=2).first().year
             Choice3 = MoviesDB.query.filter_by(movieID=3).first().year
 
-            # randomly shuffle the list for all the choices 
             allChoicesList = [corrDate, Choice1, Choice2, Choice3]
             random.shuffle(allChoicesList)
 
@@ -117,7 +119,7 @@ def generateIMDBQuizData():
             db.session.add(question)
 
         # For question type 2
-        elif qType:
+        elif qType == 1:
 
             mid = MoviesDB.query.order_by(db.func.random()).first().movieID
             movieTitle = MoviesDB.query.filter_by(
