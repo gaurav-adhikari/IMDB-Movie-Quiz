@@ -7,18 +7,15 @@
 **routes.py file** contains all the route to HTML pages and python scripts
 
 
-## Dependencies
+## Dependencies installation  
+
+
+Route to the requirements directory in the cloned project folder and enter the following command to install all necessary dependencies  
+
 ```
-conda install -c anaconda flask
-conda install -c anaconda flask-wtf
-conda install -c conda-forge flask-bcrypt
-conda install -c conda-forge email_validator
-conda install -c anaconda flask-login
-conda install -c conda-forge flask-sqlalchemy
-conda install -c anaconda requests
-conda install -c anaconda beautifulsoup4
-conda install -c anaconda lxml
+conda env update --file requirement/requirements.yml
 ```
+
 
 ## Uses
  
