@@ -77,7 +77,7 @@ def dashboard():
     maxScore = db.session.query(db.func.max(UserInfo.recentScore)).scalar()
     page = request.args.get("page", 1, type=int)
     allUserDatas = UserInfo.query.filter(UserInfo.username != "admin").order_by(
-        desc(UserInfo.recentScore)).paginate(page=page, per_page=3)
+        desc(UserInfo.recentScore)).paginate(page=page, per_page=5)
 
     return render_template("dashboard.html",
                            userDatas=allUserDatas, currentUser=current_user.username,
@@ -120,3 +120,4 @@ def logout():
 
     logout_user()
     return redirect(url_for("home"))
+ 
