@@ -1,4 +1,4 @@
-name: gaure
+name: imdbquiz
 channels:
   - anaconda
   - conda-forge
