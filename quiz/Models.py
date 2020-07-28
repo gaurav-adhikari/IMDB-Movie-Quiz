@@ -30,7 +30,6 @@ class Questions(db.Model):
     choice2 = db.Column(db.String(100), nullable=False)
     choice3 = db.Column(db.String(100), nullable=True, default=None)
     choice4 = db.Column(db.String(100), nullable=True, default=None)
-    choice5 = db.Column(db.String(100), nullable=True, default=None)
     correctAnswer = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
