@@ -87,10 +87,8 @@ def dashboard():
 @app.route("/takeQuiz", methods=["GET", "POST"])
 @login_required
 def takeQuiz():
+    print("take quiz started")
 
-    generateIMDBQuizData()
-    currentUser = current_user
-    questionSets = Questions.query.order_by(db.func.random()).limit(10)
 
     if request.method == "POST":
 
@@ -98,13 +96,9 @@ def takeQuiz():
 
         for selectedAnswerid in request.form:
 
-            # print([selectedAnswerid])
-            # print(request.form)
-            # print(request.form[selectedAnswerid])
-
-            if request.form[selectedAnswerid] == str(Questions.query.filter_by(qid=selectedAnswerid).first().correctAnswer):
+             if request.form[selectedAnswerid] == str(Questions.query.filter_by(qid=selectedAnswerid).first().correctAnswer):
                 tempScore += 1
-
+        
         if tempScore > current_user.recentScore:
             current_user.recentScore = tempScore
             db.session.commit()
@@ -116,6 +110,11 @@ def takeQuiz():
                 current_user.recentScore, tempScore), "info")
 
         return redirect(url_for("dashboard"))
+
+
+    generateIMDBQuizData()
+    currentUser = current_user
+    questionSets = Questions.query.order_by(db.func.random()).limit(10)
 
     return render_template("quizExam.html", recentScore=currentUser.recentScore, username=currentUser.username, questions=questionSets)
 

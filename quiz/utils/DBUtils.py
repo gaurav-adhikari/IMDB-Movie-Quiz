@@ -68,7 +68,6 @@ def insertIMDBData(imdb):
     """
     Inserts the data received from the IMDB site to local DB
     """
-
     for movieItem in imdb:
         movieObj = MoviesDB(movieTitle=movieItem["movie_title"], year=movieItem['year'],
                             place=movieItem["place"], starCast=movieItem["star_cast"], ratings=movieItem["rating"])
@@ -137,9 +136,9 @@ def generateIMDBQuizData():
             allChoicesList = [corrDate, Choice1, Choice2, Choice3]
             random.shuffle(allChoicesList)
 
+            db.session.add(question)
             question = Questions(question=question, choice1=allChoicesList[0], choice2=allChoicesList[1],
                                  choice3=allChoicesList[2], choice4=allChoicesList[3], correctAnswer=corrStarCast)
-            db.session.add(question)
 
     # Commit the final changes to the DB
     db.session.commit()

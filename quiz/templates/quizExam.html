@@ -12,13 +12,13 @@
             {% for question in questions %}
             <p>{{loop.index}}. {{question.question}}</p>
             <div class="form-check pb-3">
-                <input type="radio" class="form-check-input" name={{question.qid}} value="1"><label
+                <input type="radio" class="form-check-input" name={{question.qid}} value={{question.choice1}}><label
                     class="form-check-label">{{question.choice1}}</label><br>
-                <input type="radio" class="form-check-input" name={{question.qid}} value="2"><label
+                <input type="radio" class="form-check-input" name={{question.qid}} value={{question.choice2}}><label
                     class="form-check-label">{{question.choice2}}</label><br>
-                <input type="radio" class="form-check-input" name={{question.qid}} value="3"><label
+                <input type="radio" class="form-check-input" name={{question.qid}} value={{question.choice3}}><label
                     class="form-check-label">{{question.choice3}}</label><br>
-                <input type="radio" class="form-check-input" name={{question.qid}} value="4"><label
+                <input type="radio" class="form-check-input" name={{question.qid}} value={{question.choice4}}><label
                     class="form-check-label">{{question.choice4}}</label><br>
             </div>
             {% endfor%}
