@@ -6,19 +6,18 @@ from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import desc
 
 from quiz.utils.DBUtils import adminEntryCheckHelper, loadIMDBData, insertIMDBData, generateIMDBQuizData
-from quiz.utils.Utils import generatePasswordHash, checkPasswordHash, generateReferral
+from quiz.utils.Utils import generatePasswordHash, checkPasswordHash, generateReferral, createFigure
+
+import io
+import time
+from flask import Response
+
 
 db.create_all()
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-
-    # caching the IMDB response
-    if MoviesDB.query.first() == None:
-        imdbRawDictionary = loadIMDBData()
-        insertIMDBData(imdbRawDictionary)
-        print("imdb load")
 
     adminEntryCheckHelper()
 
@@ -74,6 +73,19 @@ def register():
 @login_required
 def dashboard():
 
+    timeStamp = time.time()
+
+    scoreData = UserInfo.query.filter(
+        id != "admin").with_entities(UserInfo.recentScore).all()
+    scoreData = [temp[0] for temp in scoreData]
+    createFigure(scoreData, timeStamp)
+
+    # caching the IMDB response
+    if MoviesDB.query.first() == None:
+        imdbRawDictionary = loadIMDBData()
+        insertIMDBData(imdbRawDictionary)
+        print("imdb load")
+
     maxScore = db.session.query(db.func.max(UserInfo.recentScore)).scalar()
     page = request.args.get("page", 1, type=int)
     allUserDatas = UserInfo.query.filter(UserInfo.username != "admin").order_by(
@@ -81,14 +93,11 @@ def dashboard():
 
     return render_template("dashboard.html",
                            userDatas=allUserDatas, currentUser=current_user.username,
-                           maxScore=maxScore, referralCode=current_user.referralCode)
-
+                           maxScore=maxScore, referralCode=current_user.referralCode, pltUrl="/static/images/output{}.png".format(timeStamp))
 
 @app.route("/takeQuiz", methods=["GET", "POST"])
 @login_required
 def takeQuiz():
-    print("take quiz started")
-
 
     if request.method == "POST":
 
@@ -96,9 +105,9 @@ def takeQuiz():
 
         for selectedAnswerid in request.form:
 
-             if request.form[selectedAnswerid] == str(Questions.query.filter_by(qid=selectedAnswerid).first().correctAnswer):
+            if request.form[selectedAnswerid] == str(Questions.query.filter_by(qid=selectedAnswerid).first().correctAnswer):
                 tempScore += 1
-        
+
         if tempScore > current_user.recentScore:
             current_user.recentScore = tempScore
             db.session.commit()
@@ -110,7 +119,6 @@ def takeQuiz():
                 current_user.recentScore, tempScore), "info")
 
         return redirect(url_for("dashboard"))
-
 
     generateIMDBQuizData()
     currentUser = current_user

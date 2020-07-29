@@ -1,8 +1,10 @@
+
 import random
 from quiz import bcrypt
+import numpy as np
+import seaborn as sns
 
 def generatePasswordHash(userPasswordPlain):
-    
     """
     Returns hashed password by converting the given plain text
     :param userPasswordPlain: hash password of the given user
@@ -15,7 +17,6 @@ def generatePasswordHash(userPasswordPlain):
 
 
 def checkPasswordHash(userHashedPassword, enteredPassword):
-
     """
     Returns true if the given plain text is equal to hashed text
 
@@ -32,7 +33,6 @@ def checkPasswordHash(userHashedPassword, enteredPassword):
 
 
 def generateReferral():
-    
     """
     Generates a random and unique referal code of 5 characters
 
@@ -50,7 +50,6 @@ def generateReferral():
 
 
 def generateDummyTestQuestions():
-   
     """
     Function to generate dummy quiz Questions
     """
@@ -59,9 +58,16 @@ def generateDummyTestQuestions():
         i = str(i)
         q = Questions(question="question"+i, choice1="q"+i+"C"+"1", choice2="q" +
                       i+"C"+"2", choice3="q"+i+"C"+"3", choice4="q"+i+"C"+"4", correctAnswer=i)
-        try:    
+        try:
             db.session.add(q)
             db.session.commit()
-            
+            import io
+
         except Exception as e:
             print(e)
+
+
+def createFigure(scoreData,timeStamp):
+    xs=np.array(scoreData)
+    snsplt=sns.countplot(x=xs)
+    snsplt.figure.savefig("quiz/static/images/output{}.png".format(timeStamp))
