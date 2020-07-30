@@ -70,6 +70,6 @@ Trello : https://trello.com/b/kruI183a/imdb-quiz
 * ~~Referral Feature~~
 * ~~Result Update~~
 * ~~User performance Graphs in Dashboard~~
-* Add Question types
+* ~~Add Question types~~
 * Analyse the user performance report to create an ML model
 * formulate a Recommenders system to generate the relevant questions to the user
