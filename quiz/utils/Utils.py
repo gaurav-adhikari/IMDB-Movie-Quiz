@@ -68,6 +68,12 @@ def generateDummyTestQuestions():
 
 
 def createFigure(scoreData,timeStamp):
+    """
+    Generates a sns plot and saves the given plot as an image file 
+    
+    :param scoreData: a list of all the recent scores of users
+    :param timeStamp: current generated system timestamp 
+    """
     xs=np.array(scoreData)
     snsplt=sns.countplot(x=xs)
     snsplt.figure.savefig("quiz/static/images/output{}.png".format(timeStamp))
