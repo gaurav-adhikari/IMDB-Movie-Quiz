@@ -1,8 +1,10 @@
-
+import os
+import shutil
 import random
 from quiz import bcrypt
 import numpy as np
 import seaborn as sns
+
 
 def generatePasswordHash(userPasswordPlain):
     """
@@ -67,13 +69,21 @@ def generateDummyTestQuestions():
             print(e)
 
 
-def createFigure(scoreData,timeStamp):
+def createFigure(scoreData, timeStamp):
     """
     Generates a sns plot and saves the given plot as an image file 
-    
+
     :param scoreData: a list of all the recent scores of users
     :param timeStamp: current generated system timestamp 
     """
-    xs=np.array(scoreData)
-    snsplt=sns.countplot(x=xs)
+
+    # Delete previous plot if exists
+    for root, dirs, files in os.walk('quiz/static/images/'):
+        for f in files:
+            os.unlink(os.path.join(root, f))
+        for d in dirs:
+            shutil.rmtree(os.path.join(root, d))
+
+    xs = np.array(scoreData)
+    snsplt = sns.countplot(x=xs)
     snsplt.figure.savefig("quiz/static/images/output{}.png".format(timeStamp))
