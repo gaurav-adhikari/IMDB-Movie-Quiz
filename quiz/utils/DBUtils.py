@@ -85,15 +85,15 @@ def generateIMDBQuizData():
 
     # Types of questions to be asked in the quiz
     questionTypes = ["In which year did {} got Released ?",
-                     "who is the actor in the movie {} ?"]
+                     "who are the casts in the movie {} ?"]
 
     for numberOfQuestions in range(1, 11):
 
         # For dev
-        qType = 0
+        # qType = 0
 
         # For various question types
-        # qType = random.randint(0, 1)
+        qType = random.randint(0, 1)
 
         # For question type 0
         if qType == 0:
@@ -133,12 +133,12 @@ def generateIMDBQuizData():
             Choice2 = MoviesDB.query.filter_by(movieID=2).first().starCast
             Choice3 = MoviesDB.query.filter_by(movieID=3).first().starCast
 
-            allChoicesList = [corrDate, Choice1, Choice2, Choice3]
+            allChoicesList = [corrStarCast, Choice1, Choice2, Choice3]
             random.shuffle(allChoicesList)
 
-            db.session.add(question)
             question = Questions(question=question, choice1=allChoicesList[0], choice2=allChoicesList[1],
                                  choice3=allChoicesList[2], choice4=allChoicesList[3], correctAnswer=corrStarCast)
+            db.session.add(question)
 
     # Commit the final changes to the DB
     db.session.commit()
