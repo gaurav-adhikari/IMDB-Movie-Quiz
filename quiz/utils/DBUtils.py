@@ -85,7 +85,7 @@ def generateIMDBQuizData():
 
     # Types of questions to be asked in the quiz
     questionTypes = ["In which year did {} got Released ?",
-                     "who are the casts in the movie {} ?"]
+                     "who are the director in the movie {} ?"]
 
     for numberOfQuestions in range(1, 11):
 
